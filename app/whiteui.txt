@@ -1,0 +1,723 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+const ReactPlayer = dynamic(() => import("react-player"), {
+  ssr: false,
+});
+
+gsap.registerPlugin(ScrollTrigger);
+
+export default function Home() {
+  const tagRef = useRef(null);
+  const titleRef = useRef(null);
+  const rowRef = useRef(null);
+
+  const servicesRef = useRef(null);
+  const featuresRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // HERO
+      gsap.from(tagRef.current, {
+        x: -40,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+      });
+
+      gsap.from(titleRef.current, {
+        y: 80,
+        opacity: 0,
+        duration: 1.2,
+        delay: 0.2,
+        ease: "power4.out",
+      });
+
+      gsap.from(rowRef.current, {
+        y: 40,
+        opacity: 0,
+        duration: 1,
+        delay: 0.5,
+        ease: "power3.out",
+      });
+
+      // SERVICES
+      if (servicesRef.current) {
+        const cards =
+          servicesRef.current.querySelectorAll(".service-card");
+
+        gsap.from(cards, {
+          scrollTrigger: {
+            trigger: servicesRef.current,
+            start: "top 75%",
+          },
+          y: 60,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.15,
+        });
+      }
+
+      // FEATURES
+      if (featuresRef.current) {
+        const featureItems =
+          featuresRef.current.querySelectorAll(".feature-item");
+
+        gsap.from(featureItems, {
+          scrollTrigger: {
+            trigger: featuresRef.current,
+            start: "top 75%",
+          },
+          x: 40,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.15,
+        });
+      }
+
+      // GENERIC SECTION ANIMATIONS
+      gsap.utils.toArray(".fade-up").forEach((el) => {
+        gsap.from(el, {
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+          },
+          y: 50,
+          opacity: 0,
+          duration: 1,
+          ease: "power3.out",
+        });
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <main className="bg-white overflow-hidden">
+      {/* NAVBAR */}
+      <nav className="fixed top-0 left-0 w-full h-[72px] z-[999] flex items-center justify-between px-6 md:px-12 bg-white/80 backdrop-blur-xl border-b border-slate-200 shadow-sm">
+        <a
+          href="#"
+          className="text-slate-900 text-[1.4rem] font-black tracking-tight"
+        >
+          brizzy<span className="text-[#3b82f6]">.</span>
+        </a>
+
+        <ul className="hidden md:flex items-center gap-8">
+          <li>
+            <a
+              href="#"
+              className="text-slate-500 hover:text-slate-900 transition text-sm tracking-wide"
+            >
+              Home
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="#services"
+              className="text-slate-500 hover:text-slate-900 transition text-sm tracking-wide"
+            >
+              Services
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="#about"
+              className="text-slate-500 hover:text-slate-900 transition text-sm tracking-wide"
+            >
+              About
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="/contact"
+              className="text-slate-500 hover:text-slate-900 transition text-sm tracking-wide"
+            >
+              Contact
+            </a>
+          </li>
+        </ul>
+
+        <button className="bg-[#3b82f6] hover:bg-[#2563eb] transition text-white px-6 py-3 rounded-xl font-semibold text-sm">
+          Book Appointment
+        </button>
+      </nav>
+
+      {/* HERO */}
+      <section className="relative w-full h-screen overflow-hidden">
+        {/* VIDEO */}
+        <div className="absolute inset-0 z-[1]">
+          <ReactPlayer
+            url="https://krambica-s3-bucker.s3.ap-south-1.amazonaws.com/products/colors/6bb1f998-f096-462e-b2a9-6aca3a55ab8f.mp4"
+            playing
+            muted
+            loop
+            playsinline
+            width="100%"
+            height="100%"
+            className="react-player"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+            }}
+          />
+        </div>
+
+        {/* OVERLAY */}
+        <div className="absolute inset-0 z-[2] bg-gradient-to-t from-black via-black/50 to-black/20" />
+
+        {/* TAG */}
+        <div className="absolute top-[100px] left-1/2 -translate-x-1/2 z-[5]">
+          <span className="px-5 py-2 rounded-full border border-white/10 bg-white/10 backdrop-blur-md text-white/80 uppercase tracking-[0.2em] text-[11px]">
+            Premium Truck Detailing
+          </span>
+        </div>
+
+        {/* CONTENT */}
+        <div className="relative z-[5] h-full max-w-[1300px] mx-auto px-6 md:px-12 flex flex-col justify-end pb-16">
+          <div
+            ref={tagRef}
+            className="flex items-center gap-3 mb-6"
+          >
+            <div className="w-10 h-[1px] bg-[#3b82f6]" />
+
+            <span className="text-[#3b82f6] uppercase tracking-[0.22em] text-[12px] font-bold">
+              brizzy Fleet Wash
+            </span>
+          </div>
+
+          <h1
+            ref={titleRef}
+            className="text-white font-black leading-[0.95] tracking-[-0.05em] text-[clamp(3.5rem,9vw,7rem)] max-w-[950px]"
+          >
+            Industrial truck
+            <br />
+            washing reimagined.
+          </h1>
+
+          <div
+            ref={rowRef}
+            className="mt-10 flex flex-col md:flex-row md:items-end justify-between gap-10"
+          >
+            <p className="max-w-[500px] text-white/65 leading-[1.8] text-[15px]">
+              Premium fleet detailing and ceramic protection
+              engineered for commercial transport and logistics
+              operations.
+            </p>
+
+            <div className="flex flex-col items-start md:items-end gap-4">
+              <button className="bg-[#3b82f6] hover:bg-[#2563eb] transition text-white font-bold px-10 py-4 rounded-xl">
+                Schedule Fleet Wash
+              </button>
+
+              <button className="text-white/70 hover:text-white transition">
+                Explore Facility ↗
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SERVICES */}
+  {/* SERVICES */}
+<section
+  id="services"
+  ref={servicesRef}
+  className="bg-[#f0f7ff] py-32 border-b border-blue-100"
+>
+  <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+    {/* TOP AREA */}
+    <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-14 mb-24">
+      {/* LEFT */}
+      <div>
+        <span className="block text-slate-400 uppercase tracking-[0.2em] text-[12px] mb-5">
+          02 — Services
+        </span>
+
+        <h2 className="text-slate-900 text-[clamp(2.8rem,5vw,4.5rem)] font-black leading-[0.95] tracking-[-0.05em] max-w-[760px]">
+          Heavy-duty fleet
+          <br />
+          treatments engineered
+          <br />
+          for commercial transport.
+        </h2>
+      </div>
+
+      {/* RIGHT */}
+      <div className="max-w-[460px]">
+        <p className="text-slate-500 leading-[1.9] text-[16px]">
+          Premium fleet detailing solutions designed for
+          logistics operators, enterprise transport companies,
+          and industrial freight systems requiring precision
+          cleaning and rapid turnaround workflows.
+        </p>
+
+        {/* FEATURE TAGS */}
+        <div className="flex flex-wrap gap-3 mt-8">
+          {[
+            "24/7 Fleet Service",
+            "Ceramic Protection",
+            "Steam Sanitization",
+            "Industrial Foam Wash",
+          ].map((item, index) => (
+            <div
+              key={index}
+              className="px-4 py-2 rounded-full border border-blue-200 bg-blue-50 text-blue-600 text-sm font-medium"
+            >
+              {item}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    {/* PACKAGES */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {[
+        {
+          number: "01",
+          title: "Essential Fleet Wash",
+          description:
+            "Weekly industrial foam wash with pressure rinse, wheel cleaning, and exterior decontamination.",
+          price: "$120",
+          features: [
+            "Foam Pressure Wash",
+            "Wheel Cleaning",
+            "Undercarriage Rinse",
+            "Dry Finish",
+          ],
+        },
+        {
+          number: "02",
+          title: "Premium Fleet Shield",
+          description:
+            "Advanced ceramic protection package engineered for long-term gloss retention and environmental defense.",
+          price: "$480",
+          featured: true,
+          features: [
+            "Ceramic Coating",
+            "Hydrophobic Finish",
+            "Paint Protection",
+            "Interior Detailing",
+          ],
+        },
+        {
+          number: "03",
+          title: "Enterprise Sanitization",
+          description:
+            "Full commercial trailer sanitation and steam purification system for logistics operations.",
+          price: "$260",
+          features: [
+            "Steam Sanitization",
+            "Cargo Cleaning",
+            "Food-grade Treatment",
+            "Odor Elimination",
+          ],
+        },
+      ].map((service, index) => (
+        <div
+          key={index}
+          className={`rounded-[32px] p-10 min-h-[540px] flex flex-col justify-between transition-all duration-300 ${
+            service.featured
+              ? "bg-gradient-to-br from-[#3b82f6] to-[#1d4ed8] border border-blue-400/30 shadow-xl shadow-blue-500/20"
+              : "bg-white border border-slate-200 shadow-sm"
+          }`}
+        >
+          {/* TOP */}
+          <div>
+            <div className="flex items-center justify-between mb-10">
+              <span
+                className={`text-sm font-bold tracking-[0.15em] ${
+                  service.featured
+                    ? "text-white/70"
+                    : "text-slate-300"
+                }`}
+              >
+                {service.number}
+              </span>
+
+              <div className={`w-11 h-11 rounded-full border flex items-center justify-center ${service.featured ? 'border-white/20 text-white/50' : 'border-slate-200 text-slate-300'}`}>
+                ↗
+              </div>
+            </div>
+
+            <h3 className={`text-[32px] leading-[0.95] font-black tracking-tight mb-8 max-w-[300px] ${service.featured ? 'text-white' : 'text-slate-900'}`}>
+              {service.title}
+            </h3>
+
+            <p className={`leading-[1.9] text-[15px] ${service.featured ? 'text-white/70' : 'text-slate-500'}`}>
+              {service.description}
+            </p>
+
+            {/* FEATURES */}
+            <div className="mt-10 flex flex-col gap-4">
+              {service.features.map((feature, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-3"
+                >
+                  <div className={`w-2 h-2 rounded-full ${service.featured ? 'bg-blue-200' : 'bg-blue-400'}`} />
+
+                  <span className={`text-[15px] ${service.featured ? 'text-white/70' : 'text-slate-500'}`}>
+                    {feature}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* BOTTOM */}
+          <div className={`mt-14 pt-8 border-t ${service.featured ? 'border-white/20' : 'border-slate-100'}`}>
+            <span className={`text-sm uppercase tracking-[0.15em] ${service.featured ? 'text-white/50' : 'text-slate-400'}`}>
+              Starting at
+            </span>
+
+            <div className="flex items-end justify-between mt-3">
+              <h4 className={`text-[42px] leading-none font-black ${service.featured ? 'text-white' : 'text-slate-900'}`}>
+                {service.price}
+              </h4>
+
+              <button
+                className={`px-5 py-3 rounded-xl text-sm font-semibold transition ${
+                  service.featured
+                    ? "bg-white text-blue-600 hover:bg-blue-50"
+                    : "bg-blue-50 border border-blue-200 hover:border-blue-400 text-blue-600"
+                }`}
+              >
+                Select Package
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+      {/* FEATURES */}
+      <section
+        id="about"
+        ref={featuresRef}
+        className="bg-white py-32"
+      >
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12 grid md:grid-cols-2 gap-20">
+          <div className="fade-up">
+            <span className="block text-slate-400 uppercase tracking-[0.2em] text-[12px] mb-4">
+              03 — Facility
+            </span>
+
+            <h2 className="text-slate-900 text-[clamp(2.5rem,5vw,4rem)] font-black leading-[1] tracking-[-0.04em] mb-10">
+              Built for enterprise
+              <br />
+              logistics fleets.
+            </h2>
+
+            <p className="text-slate-500 text-[18px] leading-[1.9] max-w-[500px]">
+              Our climate-controlled wash bays and industrial
+              detailing systems guarantee consistent fleet-quality
+              finishes.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-14">
+            {[
+              {
+                title: "24-Hour Turnaround",
+                text: "Fast fleet scheduling engineered for logistics operations.",
+              },
+              {
+                title: "Industrial Foam Systems",
+                text: "Heavy-duty decontamination without damaging surfaces.",
+              },
+              {
+                title: "Certified Technicians",
+                text: "Every vehicle handled by experienced detailing specialists.",
+              },
+            ].map((feature, index) => (
+              <div
+                key={index}
+                className="feature-item relative pl-8"
+              >
+                <div className="absolute left-0 top-[8px] w-[2px] h-[18px] bg-[#3b82f6]" />
+
+                <h4 className="text-slate-900 text-[28px] font-bold mb-4 tracking-tight">
+                  {feature.title}
+                </h4>
+
+                <p className="text-slate-500 leading-[1.8] max-w-[520px]">
+                  {feature.text}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* STATS */}
+      <section className="bg-[#f0f7ff] border-y border-blue-100 py-24">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              ["12K+", "Trucks Washed"],
+              ["24/7", "Fleet Support"],
+              ["98%", "Client Retention"],
+              ["15", "Wash Bays"],
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="fade-up bg-white border border-slate-200 rounded-3xl p-10 shadow-sm"
+              >
+                <h3 className="text-[#3b82f6] text-[42px] font-black mb-3">
+                  {item[0]}
+                </h3>
+
+                <p className="text-slate-500 tracking-wide">
+                  {item[1]}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PROCESS */}
+      <section className="bg-white py-32">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <span className="block text-slate-400 uppercase tracking-[0.2em] text-[12px] mb-4 fade-up">
+            04 — Wash Process
+          </span>
+
+          <h2 className="fade-up text-slate-900 text-[clamp(2.5rem,5vw,4rem)] font-black leading-none tracking-[-0.04em] mb-20">
+            Six-step restoration workflow.
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              "Fleet Inspection",
+              "Foam Application",
+              "Pressure Wash",
+              "Surface Treatment",
+              "Ceramic Protection",
+              "Final Finish",
+            ].map((step, index) => (
+              <div
+                key={index}
+                className="fade-up bg-[#f8fafc] border border-slate-200 rounded-3xl p-10"
+              >
+                <span className="text-[#3b82f6]/30 text-[60px] font-black">
+                  0{index + 1}
+                </span>
+
+                <h3 className="text-slate-900 text-[28px] font-bold mt-8 tracking-tight">
+                  {step}
+                </h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section className="bg-[#f8fafc] py-32 border-y border-slate-100">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <span className="fade-up block text-slate-400 uppercase tracking-[0.2em] text-[12px] mb-4">
+            05 — Client Results
+          </span>
+
+          <h2 className="fade-up text-slate-900 text-[clamp(2.5rem,5vw,4rem)] font-black leading-none tracking-[-0.04em] mb-20">
+            Trusted by logistics fleets nationwide.
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              "Reduced fleet maintenance downtime by 40%.",
+              "Best detailing facility we've partnered with.",
+              "Our trucks look showroom-ready every week.",
+            ].map((quote, index) => (
+              <div
+                key={index}
+                className="fade-up bg-white border border-slate-200 rounded-[32px] p-10 shadow-sm"
+              >
+                <div className="text-[#3b82f6] text-[60px] leading-none mb-6">
+                  “
+                </div>
+
+                <p className="text-slate-600 leading-[1.9] text-[17px]">
+                  {quote}
+                </p>
+
+                <div className="mt-10">
+                  <h4 className="text-slate-900 font-bold">
+                    Titan Logistics
+                  </h4>
+
+                  <span className="text-slate-400 text-sm">
+                    Enterprise Client
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="relative overflow-hidden py-40">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#3b82f6] to-[#1e40af]" />
+
+        <div className="relative z-10 max-w-[1100px] mx-auto px-6 md:px-12 text-center">
+          <h2 className="fade-up text-white text-[clamp(3rem,7vw,6rem)] font-black leading-[0.95] tracking-[-0.05em]">
+            Your fleet deserves
+            <br />
+            showroom-level precision.
+          </h2>
+
+          <p className="fade-up max-w-[650px] mx-auto mt-8 text-white/80 leading-[1.9] text-lg">
+            Premium industrial truck washing and detailing
+            engineered for commercial transport operations.
+          </p>
+
+          <div className="fade-up mt-12 flex flex-col md:flex-row gap-6 justify-center">
+            <button className="bg-[#3b82f6] hover:bg-[#2563eb] transition text-white px-10 py-5 rounded-2xl font-bold text-lg">
+              Schedule Fleet Wash
+            </button>
+
+            <button className="border border-white/30 bg-white/10 backdrop-blur-xl hover:bg-white/20 transition text-white px-10 py-5 rounded-2xl font-bold text-lg">
+              Request Enterprise Quote
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+<footer className="relative bg-[#0f172a] border-t border-slate-800 overflow-hidden">
+  {/* BLUE GLOW */}
+  <div className="absolute bottom-[-200px] right-[-120px] w-[420px] h-[420px] rounded-full bg-blue-500/10 blur-[140px]" />
+
+  <div className="relative z-10 max-w-[1300px] mx-auto px-6 md:px-12 py-24">
+    {/* TOP */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 pb-20 border-b border-slate-700">
+      {/* BRAND */}
+      <div>
+        <div className="text-white text-[2rem] font-black tracking-tight">
+          brizzy<span className="text-blue-400">.</span>
+        </div>
+
+        <p className="mt-6 text-white/50 leading-[1.9] max-w-[320px]">
+          Premium fleet detailing and industrial truck washing
+          engineered for logistics operators and commercial
+          transport companies.
+        </p>
+
+        {/* SOCIALS */}
+        <div className="flex items-center gap-4 mt-8">
+          {["IG", "TW", "LI"].map((item, index) => (
+            <div
+              key={index}
+              className="w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/60 hover:text-white hover:border-blue-400/40 transition"
+            >
+              {item}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* SERVICES */}
+      <div>
+        <h4 className="text-white font-bold text-lg mb-8">
+          Services
+        </h4>
+
+        <div className="flex flex-col gap-5">
+          {[
+            "Fleet Foam Wash",
+            "Ceramic Protection",
+            "Trailer Sanitization",
+            "Interior Detailing",
+          ].map((item, index) => (
+            <a
+              key={index}
+              href="#"
+              className="text-white/45 hover:text-white transition"
+            >
+              {item}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* COMPANY */}
+      <div>
+        <h4 className="text-white font-bold text-lg mb-8">
+          Company
+        </h4>
+
+        <div className="flex flex-col gap-5">
+          {[
+            "About Us",
+            "Fleet Solutions",
+            "Enterprise",
+            "Careers",
+          ].map((item, index) => (
+            <a
+              key={index}
+              href="#"
+              className="text-white/45 hover:text-white transition"
+            >
+              {item}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* CONTACT */}
+      <div>
+        <h4 className="text-white font-bold text-lg mb-8">
+          Contact
+        </h4>
+
+        <div className="flex flex-col gap-5 text-white/45">
+          <span>hello@brizzyfleet.com</span>
+          <span>+1 (800) 245-9087</span>
+          <span>Houston, Texas</span>
+          <span>24/7 Fleet Support</span>
+        </div>
+      </div>
+    </div>
+
+    {/* BOTTOM */}
+    <div className="pt-10 flex flex-col md:flex-row items-center justify-between gap-6">
+      <p className="text-white/35 text-sm">
+        © 2026 brizzy Fleet Wash. All rights reserved.
+      </p>
+
+      <div className="flex items-center gap-8">
+        {[
+          "Privacy Policy",
+          "Terms & Conditions",
+          "Fleet Support",
+        ].map((item, index) => (
+          <a
+            key={index}
+            href="#"
+            className="text-white/35 hover:text-white transition text-sm"
+          >
+            {item}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</footer>
+    </main>
+  );
+}

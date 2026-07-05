@@ -1,0 +1,464 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Clock3,
+  Truck,
+  ShieldCheck,
+  CheckCircle2,
+} from "lucide-react";
+
+export default function ContactPage() {
+  const heroRef = useRef(null);
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // HERO ONLY
+      gsap.from(heroRef.current, {
+        y: 80,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power4.out",
+      });
+
+      // FORM ONLY
+      gsap.from(formRef.current, {
+        y: 60,
+        opacity: 0,
+        duration: 1,
+        delay: 0.2,
+        ease: "power3.out",
+      });
+
+      // GENERIC
+      gsap.utils.toArray(".fade-up").forEach((el) => {
+        gsap.from(el, {
+          y: 40,
+          opacity: 0,
+          duration: 1,
+          ease: "power3.out",
+        });
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <main className="bg-white overflow-hidden">
+      {/* NAVBAR */}
+      <nav className="fixed top-0 left-0 w-full h-[72px] z-[999] flex items-center justify-between px-6 md:px-12 bg-white/80 backdrop-blur-xl border-b border-slate-200 shadow-sm">
+        <a
+          href="#"
+          className="text-slate-900 text-[1.4rem] font-black tracking-tight"
+        >
+          brizzy<span className="text-[#3b82f6]">.</span>
+        </a>
+
+        <div className="hidden md:flex items-center gap-8">
+         {[
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/" },
+  { label: "About", href: "/" },
+  { label: "Contact", href: "/contact" },
+].map((item, index) => (
+  
+    <a key={index}
+    href={item.href}
+    className="text-slate-500 hover:text-slate-900 transition text-sm"
+  >
+    {item.label}
+  </a>
+))}
+        </div>
+
+        <button className="bg-[#3b82f6] hover:bg-[#2563eb] transition text-white px-6 py-3 rounded-xl font-semibold text-sm">
+          Book Fleet Wash
+        </button>
+      </nav>
+
+      {/* HERO */}
+      <section className="relative pt-[180px] pb-32 border-b border-slate-100 overflow-hidden">
+        {/* GLOW */}
+        <div className="absolute top-[-180px] right-[-100px] w-[500px] h-[500px] rounded-full bg-[#3b82f6]/10 blur-[160px]" />
+
+        <div
+          ref={heroRef}
+          className="relative z-10 max-w-[1300px] mx-auto px-6 md:px-12"
+        >
+          <span className="px-5 py-2 rounded-full border border-blue-200 bg-blue-50 text-blue-600 uppercase tracking-[0.2em] text-[11px] font-medium">
+            Premium Fleet Support
+          </span>
+
+          <h1 className="mt-8 text-slate-900 font-black leading-[0.92] tracking-[-0.05em] text-[clamp(3.5rem,8vw,7rem)] max-w-[950px]">
+            Contact our
+            <br />
+            truck washing
+            <br />
+            specialists.
+          </h1>
+
+          <div className="mt-12 flex flex-col lg:flex-row justify-between gap-12">
+            <p className="max-w-[560px] text-slate-500 text-[17px] leading-[1.9]">
+              Industrial fleet detailing and commercial truck
+              washing engineered for logistics operators,
+              transport companies, and enterprise fleets.
+            </p>
+
+            <div className="flex flex-col items-start lg:items-end gap-5">
+              <button className="bg-[#3b82f6] hover:bg-[#2563eb] transition text-white px-10 py-5 rounded-2xl font-bold">
+                Schedule Fleet Service
+              </button>
+
+              <button className="text-slate-500 hover:text-slate-900 transition">
+                Enterprise Solutions ↗
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CONTACT INFO */}
+      <section className="bg-[#f0f7ff] py-28 border-b border-blue-100">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+            {[
+              {
+                icon: Phone,
+                title: "Fleet Hotline",
+                value: "+1 (800) 245-9087",
+                desc: "24/7 operational support",
+              },
+              {
+                icon: Mail,
+                title: "Business Email",
+                value: "fleet@brizzywash.com",
+                desc: "Enterprise fleet inquiries",
+              },
+              {
+                icon: MapPin,
+                title: "Main Facility",
+                value: "Houston, Texas",
+                desc: "Industrial wash headquarters",
+              },
+              {
+                icon: Clock3,
+                title: "Operations",
+                value: "Always Open",
+                desc: "Rapid turnaround workflows",
+              },
+            ].map((item, index) => {
+              const Icon = item.icon;
+
+              return (
+                <div
+                  key={index}
+                  className="rounded-[32px] p-10 bg-white border border-slate-200 hover:border-blue-300 transition-all duration-300 shadow-sm"
+                >
+                  <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-[#3b82f6]">
+                    <Icon size={24} />
+                  </div>
+
+                  <h3 className="mt-8 text-slate-900 text-[26px] font-black tracking-tight">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-5 text-slate-900 text-[18px] font-semibold">
+                    {item.value}
+                  </p>
+
+                  <p className="mt-3 text-slate-400 leading-[1.8]">
+                    {item.desc}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* MAIN CONTACT SECTION */}
+      <section className="bg-white py-32">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12 grid lg:grid-cols-2 gap-20 items-start">
+          {/* LEFT SIDE */}
+          <div className="fade-up">
+            <span className="block text-slate-400 uppercase tracking-[0.2em] text-[12px] mb-4">
+              Enterprise Inquiry
+            </span>
+
+            <h2 className="text-slate-900 text-[clamp(2.8rem,5vw,4.5rem)] font-black leading-[0.95] tracking-[-0.05em]">
+              Built for modern
+              <br />
+              logistics fleets.
+            </h2>
+
+            <p className="mt-8 text-slate-500 leading-[1.9] text-[17px] max-w-[520px]">
+              Premium truck washing and detailing systems designed
+              for commercial fleets, enterprise logistics, and
+              industrial transportation companies requiring
+              precision cleaning and fast turnaround.
+            </p>
+
+            {/* FEATURES */}
+            <div className="mt-14 flex flex-col gap-10">
+              {[
+                {
+                  icon: Truck,
+                  title: "High-Capacity Fleet Operations",
+                  text: "Scalable wash systems engineered for enterprise transport operations.",
+                },
+                {
+                  icon: ShieldCheck,
+                  title: "Industrial-Grade Protection",
+                  text: "Ceramic coating and heavy-duty treatment workflows.",
+                },
+                {
+                  icon: CheckCircle2,
+                  title: "Certified Wash Technicians",
+                  text: "Experienced specialists ensuring showroom-level finishes.",
+                },
+              ].map((item, index) => {
+                const Icon = item.icon;
+
+                return (
+                  <div
+                    key={index}
+                    className="flex items-start gap-5"
+                  >
+                    <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-[#3b82f6]">
+                      <Icon size={24} />
+                    </div>
+
+                    <div>
+                      <h4 className="text-slate-900 text-[24px] font-bold">
+                        {item.title}
+                      </h4>
+
+                      <p className="mt-2 text-slate-400 leading-[1.8] max-w-[420px]">
+                        {item.text}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* FORM */}
+          <div
+            ref={formRef}
+            className="rounded-[36px] border border-slate-200 bg-[#f8fafc] p-8 md:p-12 shadow-sm"
+          >
+            <h3 className="text-slate-900 text-[34px] font-black tracking-tight">
+              Request Enterprise Quote
+            </h3>
+
+            <p className="mt-4 text-slate-500 leading-[1.8]">
+              Submit your fleet details and our operations team
+              will contact you shortly.
+            </p>
+
+            <form className="mt-10 flex flex-col gap-7">
+              <div className="grid md:grid-cols-2 gap-6">
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  className="h-[64px] rounded-2xl bg-white border border-slate-200 px-5 text-slate-900 outline-none focus:border-[#3b82f6] transition"
+                />
+
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  className="h-[64px] rounded-2xl bg-white border border-slate-200 px-5 text-slate-900 outline-none focus:border-[#3b82f6] transition"
+                />
+              </div>
+
+              <input
+                type="email"
+                placeholder="Business Email"
+                className="h-[64px] rounded-2xl bg-white border border-slate-200 px-5 text-slate-900 outline-none focus:border-[#3b82f6] transition"
+              />
+
+              <input
+                type="text"
+                placeholder="Fleet / Company Name"
+                className="h-[64px] rounded-2xl bg-white border border-slate-200 px-5 text-slate-900 outline-none focus:border-[#3b82f6] transition"
+              />
+
+              <select className="h-[64px] rounded-2xl bg-white border border-slate-200 px-5 text-slate-900 outline-none focus:border-[#3b82f6] transition">
+                <option>Fleet Foam Wash</option>
+                <option>Ceramic Protection</option>
+                <option>Trailer Sanitization</option>
+                <option>Interior Detailing</option>
+                <option>Enterprise Partnership</option>
+              </select>
+
+              <textarea
+                rows={6}
+                placeholder="Tell us about your fleet requirements..."
+                className="rounded-2xl bg-white border border-slate-200 px-5 py-5 text-slate-900 outline-none focus:border-[#3b82f6] transition resize-none"
+              />
+
+              <button className="h-[68px] rounded-2xl bg-[#3b82f6] hover:bg-[#2563eb] transition text-white font-bold text-lg">
+                Submit Inquiry
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="relative overflow-hidden py-40">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#3b82f6] to-[#1e40af]" />
+
+        <div className="relative z-10 max-w-[1100px] mx-auto px-6 md:px-12 text-center">
+          <h2 className="fade-up text-white text-[clamp(3rem,7vw,6rem)] font-black leading-[0.95] tracking-[-0.05em]">
+            Keep your fleet
+            <br />
+            road-ready.
+          </h2>
+
+          <p className="fade-up max-w-[650px] mx-auto mt-8 text-white/80 leading-[1.9] text-lg">
+            Premium industrial truck washing and detailing
+            engineered for commercial transport operations.
+          </p>
+
+          <div className="fade-up mt-12 flex flex-col md:flex-row gap-6 justify-center">
+            <button className="bg-white text-[#3b82f6] hover:bg-blue-50 transition px-10 py-5 rounded-2xl font-bold text-lg">
+              Schedule Fleet Wash
+            </button>
+
+            <button className="border border-white/30 bg-white/10 backdrop-blur-xl hover:bg-white/20 transition text-white px-10 py-5 rounded-2xl font-bold text-lg">
+              Request Enterprise Quote
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="relative bg-[#0f172a] border-t border-slate-800 overflow-hidden">
+        {/* GLOW */}
+        <div className="absolute bottom-[-200px] right-[-120px] w-[420px] h-[420px] rounded-full bg-blue-500/10 blur-[140px]" />
+
+        <div className="relative z-10 max-w-[1300px] mx-auto px-6 md:px-12 py-24">
+          {/* TOP */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 pb-20 border-b border-slate-700">
+            {/* BRAND */}
+            <div>
+              <div className="text-white text-[2rem] font-black tracking-tight">
+                brizzy<span className="text-blue-400">.</span>
+              </div>
+
+              <p className="mt-6 text-white/50 leading-[1.9] max-w-[320px]">
+                Premium industrial truck washing and fleet
+                detailing engineered for commercial transport
+                operations.
+              </p>
+
+              <div className="flex items-center gap-4 mt-8">
+                {["IG", "TW", "LI"].map((item, index) => (
+                  <div
+                    key={index}
+                    className="w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/60 hover:text-white hover:border-blue-400/40 transition"
+                  >
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* SERVICES */}
+            <div>
+              <h4 className="text-white font-bold text-lg mb-8">
+                Services
+              </h4>
+
+              <div className="flex flex-col gap-5">
+                {[
+                  "Fleet Foam Wash",
+                  "Ceramic Protection",
+                  "Trailer Sanitization",
+                  "Interior Detailing",
+                ].map((item, index) => (
+                  <a
+                    key={index}
+                    href="#"
+                    className="text-white/45 hover:text-white transition"
+                  >
+                    {item}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* COMPANY */}
+            <div>
+              <h4 className="text-white font-bold text-lg mb-8">
+                Company
+              </h4>
+
+              <div className="flex flex-col gap-5">
+                {[
+                  "About Us",
+                  "Fleet Solutions",
+                  "Enterprise",
+                  "Careers",
+                ].map((item, index) => (
+                  <a
+                    key={index}
+                    href="#"
+                    className="text-white/45 hover:text-white transition"
+                  >
+                    {item}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* CONTACT */}
+            <div>
+              <h4 className="text-white font-bold text-lg mb-8">
+                Contact
+              </h4>
+
+              <div className="flex flex-col gap-5 text-white/45">
+                <span>fleet@brizzywash.com</span>
+                <span>+1 (800) 245-9087</span>
+                <span>Houston, Texas</span>
+                <span>24/7 Fleet Support</span>
+              </div>
+            </div>
+          </div>
+
+          {/* BOTTOM */}
+          <div className="pt-10 flex flex-col md:flex-row items-center justify-between gap-6">
+            <p className="text-white/35 text-sm">
+              © 2026 brizzy Fleet Wash. All rights reserved.
+            </p>
+
+            <div className="flex items-center gap-8">
+              {[
+                "Privacy Policy",
+                "Terms & Conditions",
+                "Fleet Support",
+              ].map((item, index) => (
+                <a
+                  key={index}
+                  href="#"
+                  className="text-white/35 hover:text-white transition text-sm"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+  );
+}
