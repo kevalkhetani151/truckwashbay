@@ -89,16 +89,42 @@ export default function ContactPage() {
     return errs;
   };
 
-  const handleSubmit = (ev: React.FormEvent<HTMLFormElement>): void => {
+  // ── API INTEGRATION ADDED HERE ──────────────────────────────────
+  const handleSubmit = async (ev: React.FormEvent<HTMLFormElement>): Promise<void> => {
     ev.preventDefault();
     const errs = validate();
     setErrors(errs);
     if (Object.keys(errs).length > 0) return;
+    
     setSubmitting(true);
-    setTimeout(() => {
+    
+    try {
+      const response = await fetch("/api/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+        setForm({
+          firstName: "",
+          lastName: "",
+          email: "",
+          company: "",
+          service: "Fleet Foam Wash Allocation",
+          message: "",
+        });
+      } else {
+        console.error("Failed to submit inquiry.");
+      }
+    } catch (error) {
+      console.error("Network error occurred while submitting.", error);
+    } finally {
       setSubmitting(false);
-      setSubmitted(true);
-    }, 1400);
+    }
   };
 
   const navLinks = [
@@ -372,19 +398,24 @@ export default function ContactPage() {
               ))}
             </div>
 
-            {/* Grid Coordinates Metadata */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 border-t border-slate-200/60 pt-10">
-              {[
-                { label: "Email Route", val: "info@brizzytruckwash.com.au" },
-                { label: "Sectors Covered", val: "Brisbane, Gold Coast, Ipswich" },
-                { label: "Shift Rotations", val: "7 Days • 6am – 8pm" }
-              ].map(({ label, val }, i) => (
-                <div key={i}>
-                  <span className="text-[10px] uppercase font-black tracking-widest text-slate-400 block mb-2">{label}</span>
-                  <p className="text-slate-800 text-sm font-semibold leading-normal">{val}</p>
-                </div>
-              ))}
-            </div>
+       {/* Grid Coordinates Metadata */}
+<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 border-t border-slate-200/60 pt-10">
+  {[
+    { label: "Email Route", val: "Craig@brizzytruckwash.com.au" },
+    { label: "Phone Number", val: "0450 273 046" },
+    { label: "Sectors Covered", val: "Brisbane, Gold Coast, Ipswich" },
+    { label: "Shift Rotations", val: "7 Days • 6am – 8pm" }
+  ].map(({ label, val }, i) => (
+    <div key={i}>
+      <span className="text-[10px] uppercase font-black tracking-widest text-slate-400 block mb-2">
+        {label}
+      </span>
+      <p className="text-slate-800 text-sm font-semibold leading-normal break-words">
+        {val}
+      </p>
+    </div>
+  ))}
+</div>
           </div>
 
           {/* EDITORIAL PLATINUM FORM COMPONENT (RIGHT) */}
@@ -520,55 +551,34 @@ export default function ContactPage() {
       </section>
 
       {/* ── ARCHITECTURAL TELEMETRY MAP CANVAS ─────────────────────────── */}
-      <section className="bg-[#f8f9fa] pb-36 relative z-10">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-14 grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
-          <div className="lg:col-span-8 rounded-3xl overflow-hidden border border-slate-200 bg-white p-2 h-[450px] shadow-[0_30px_60px_rgba(0,0,0,0.01)] reveal">
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113063.95191396956!2d152.92341258957827!3d-27.601332767078864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b915004fedd928d%3A0x502a35af3de9eb0!2sIpswich%20QLD%2C%20Australia!5e0!3m2!1sen!2s!4v1710000000000!5m2!1sen!2s" 
-              className="w-full h-full rounded-2xl border-0 grayscale saturate-50 opacity-90 contrast-[1.04]"
-              allowFullScreen={false} 
-              loading="lazy" 
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Brizzy Domain Map Vector"
-            />
-          </div>
+    <section className="relative z-10 bg-[#f8f9fa] py-24">
+  <div className="max-w-[1400px] mx-auto px-6 md:px-14">
+    <div className="mb-10 text-center">
+      <span className="inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-600">
+        Visit Our Location
+      </span>
 
-          <div className="lg:col-span-4 rounded-3xl border border-slate-200 bg-white p-10 flex flex-col justify-between shadow-[0_30px_60px_rgba(0,0,0,0.01)] reveal">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-100 bg-slate-50 mb-8">
-                <span className="h-1.5 w-1.5 rounded-full bg-blue-600"></span>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">HQ Yard Base</span>
-              </div>
-              <h3 className="text-slate-950 text-2xl font-bold tracking-tight mb-5">Command Logistics Hub</h3>
-              
-              <div className="space-y-6 text-base font-light text-slate-500">
-                <div>
-                  <p className="text-slate-900 font-bold text-xs uppercase tracking-widest mb-1">Central Depot Corridor</p>
-                  <p className="text-sm text-slate-500 leading-relaxed">Brisbane & Gold Coast Logistics Line Hubs, Ipswich, QLD</p>
-                </div>
-                <div className="pt-2">
-                  <p className="text-slate-900 font-bold text-xs uppercase tracking-widest mb-1">Shift Windows</p>
-                  <p className="text-sm text-slate-500 leading-relaxed">06:00 – 20:00 Standard Loops<br />24/7 Enterprise Support Matrix</p>
-                </div>
-              </div>
-            </div>
+      <h2 className="mt-5 text-4xl md:text-5xl font-black tracking-tight text-slate-900">
+        Find Us
+      </h2>
 
-            <div className="mt-8 pt-6 border-t border-slate-100">
-              <a 
-                href="https://maps.google.com" 
-                target="_blank" 
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 text-[11px] font-extrabold text-blue-600 uppercase tracking-widest hover:text-blue-700 transition-colors"
-              >
-                Launch Navigation Matrix ↗
-              </a>
-            </div>
-          </div>
-          
-        </div>
-      </section>
+      <p className="mt-4 max-w-2xl mx-auto text-lg text-slate-600">
+        Conveniently located in Brisbane with easy access for commercial
+        trucks and heavy vehicles.
+      </p>
+    </div>
 
+    <div className="overflow-hidden rounded-[32px] border border-slate-200 bg-white p-3 shadow-[0_30px_80px_rgba(15,23,42,0.08)]">
+      <iframe
+        src="https://www.google.com/maps?q=-27.443467,153.119284&z=18&output=embed"
+        title="Brizzy Truck Wash Location"
+        loading="lazy"
+        className="h-[600px] w-full rounded-[24px] border-0 grayscale hover:grayscale-0 transition-all duration-500"
+        referrerPolicy="no-referrer-when-downgrade"
+      />
+    </div>
+  </div>
+</section>
       {/* ── ABOUT US (DEDICATED TRUCK WASH BAY INTEGRATION) ─────────────── */}
    
 
@@ -612,35 +622,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ── HIGH VISUAL CALL-TO-ACTION BANNER ──────────────────────────── */}
-      <section className="relative py-40 text-center bg-[#f8f9fa] overflow-hidden">
-        <div className="relative z-10 max-w-[800px] mx-auto px-6">
-          <span className="text-blue-600 uppercase tracking-[0.25em] text-[11px] font-extrabold">
-            Queensland Enterprise Deployments
-          </span>
-          <h2 className="text-slate-950 font-light tracking-tighter text-5xl sm:text-6xl mt-5 mb-8 leading-tight">
-            Maintain complete <br />fleet <span className="font-extrabold">readiness.</span>
-          </h2>
-          <p className="text-slate-500 font-light text-lg sm:text-xl max-w-xl mx-auto mb-12 leading-relaxed">
-            Protect brand equity across highways. Trusted across large-scale commercial distributor fleets.
-          </p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <button
-              onClick={goContact}
-              className="bg-slate-950 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl text-xs tracking-widest uppercase transition-all shadow-md"
-            >
-              Secure Wash Schedule
-            </button>
-            <button
-              onClick={goContact}
-              className="border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 px-8 py-4 rounded-xl text-xs tracking-widest uppercase shadow-sm transition-all"
-            >
-              Consult Ops Manager
-            </button>
-          </div>
-        </div>
-      </section>
-
+     
       {/* ── METICULOUS CLEAN LIGHT FOOTER (MATCHES REQ) ───────────────── */}
       <footer className="relative bg-[#0f172a] border-t border-slate-800 overflow-hidden">
         <div className="absolute bottom-[-200px] right-[-120px] w-[420px] h-[420px] rounded-full bg-blue-500/10 blur-[140px]" />
@@ -679,7 +661,7 @@ export default function ContactPage() {
             <div>
               <h4 className="text-white font-bold text-[16px] sm:text-lg mb-5 sm:mb-7 md:mb-8">Services</h4>
               <div className="flex flex-col gap-4 sm:gap-5">
-                {["Fleet Foam Wash", "Ceramic Protection", "Trailer Sanitization", "Interior Detailing"].map((item, i) => (
+                {["Fleet Foam Wash", "Trailer Sanitization", "Interior Detailing"].map((item, i) => (
                   <a key={i} href="/contact" className="text-white/45 hover:text-white transition text-sm">
                     {item}
                   </a>
@@ -691,7 +673,7 @@ export default function ContactPage() {
             <div>
               <h4 className="text-white font-bold text-[16px] sm:text-lg mb-5 sm:mb-7 md:mb-8">Company</h4>
               <div className="flex flex-col gap-4 sm:gap-5">
-                {["About Us", "Fleet Solutions", "Enterprise", "Careers"].map((item, i) => (
+                {["About Us", "Enterprise", "Careers"].map((item, i) => (
                   <a key={i} href="/contact" className="text-white/45 hover:text-white transition text-sm">
                     {item}
                   </a>
@@ -703,7 +685,7 @@ export default function ContactPage() {
             <div>
               <h4 className="text-white font-bold text-[16px] sm:text-lg mb-5 sm:mb-7 md:mb-8">Contact</h4>
               <div className="flex flex-col gap-4 sm:gap-5 text-white/45 text-sm">
-                <span>info@brizzytruckwash.com.au</span>
+                <span>Craig@brizzytruckwash.com.au</span>
                 <span>Brisbane &amp; Gold Coast, QLD, Ipswich</span>
                 <span>24/7 Fleet Support</span>
               </div>

@@ -6,11 +6,150 @@ import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Phone, Mail, MapPin, X } from "lucide-react";
 
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 gsap.registerPlugin(ScrollTrigger);
+
+/* ── PREMIUM ONE-TIME WELCOME POPUP ─────────────────────────────────── */
+function WelcomePopup({ goContact }) {
+  const [show, setShow] = useState(false);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const openTimer = setTimeout(() => {
+      setShow(true);
+      // allow the element to mount before animating in
+      requestAnimationFrame(() => setVisible(true));
+    }, 5000);
+    return () => clearTimeout(openTimer);
+  }, []);
+
+  const closePopup = () => {
+    setVisible(false);
+    setTimeout(() => setShow(false), 300);
+  };
+
+  if (!show) return null;
+
+  const services = [
+    "Enterprise Fleet Services",
+    "Deluxe Hybrid Wash",
+    "Express Automated Wash",
+    "Premium Cab Detailing",
+    "Driver Lounge Facilities",
+    "24/7 Self-Service Bays",
+  ];
+
+  return (
+    <div
+      onClick={closePopup}
+      className={`fixed inset-0 z-[3000] flex items-center justify-center p-4 sm:p-6 bg-slate-950/70 backdrop-blur-md transition-opacity duration-300 font-sans ${
+        visible ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className={`relative w-full max-w-[540px] max-h-[90vh] overflow-y-auto bg-white rounded-[28px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)] border border-slate-200 transition-all duration-300 ${
+          visible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-4"
+        }`}
+      >
+        {/* CLOSE BUTTON */}
+        <button
+          onClick={closePopup}
+          aria-label="Close popup"
+          className="absolute top-5 right-5 z-20 w-10 h-10 rounded-full bg-white/90 border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-950 hover:text-white hover:border-slate-950 transition-colors shadow-sm"
+        >
+          <X size={18} />
+        </button>
+
+        {/* HERO IMAGE HEADER */}
+        <div className="relative h-[190px] w-full overflow-hidden shrink-0">
+          <img
+            src="https://res.cloudinary.com/dnwuhcy1g/image/upload/q_auto/f_auto/v1779930872/ChatGPT_Image_May_28_2026_06_39_16_AM_vbbwdf.png"
+            alt="Brizzy Truck Wash"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
+          <div className="absolute bottom-5 left-6 right-6">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-600 text-white text-[10px] font-bold uppercase tracking-[0.2em] mb-3 shadow-md">
+              Welcome to Brizzy Truck wash
+            </div>
+            <h3 className="text-white text-[26px] sm:text-[30px] font-black tracking-tight leading-tight">
+              Truck Wash By Craig
+            </h3>
+          </div>
+        </div>
+
+        {/* BODY */}
+        <div className="p-7 sm:p-9">
+          <p className="text-slate-600 text-[14px] sm:text-[15px] leading-[1.75] mb-6">
+            Premium truck washing, hybrid detailing and interior cab detailing for
+            single trucks and nationwide fleets — keeping your commercial vehicles
+            clean, protected, and road-ready every day.
+          </p>
+
+          {/* SERVICES GRID */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3 mb-7">
+            {services.map((item, i) => (
+              <div key={i} className="flex items-center gap-2.5 text-slate-700 text-[13px] font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0" />
+                {item}
+              </div>
+            ))}
+          </div>
+
+          {/* CONTACT INFO CARD */}
+          <div className="rounded-2xl bg-slate-50 border border-slate-200 p-5 mb-7 space-y-3">
+            <a href="tel:+0450273046" className="flex items-center gap-3 text-slate-900 text-[15px] font-bold hover:text-blue-600 transition-colors">
+              <span className="w-9 h-9 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                <Phone size={15} />
+              </span>
+              0450 273 046
+            </a>
+            <a href="mailto:Craig@brizzytruckwash.com.au" className="flex items-center gap-3 text-slate-600 text-[13px] font-medium hover:text-blue-600 transition-colors">
+              <span className="w-9 h-9 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                <Mail size={15} />
+              </span>
+              Craig@brizzytruckwash.com.au
+            </a>
+            <div className="flex items-start gap-3 text-slate-600 text-[13px] font-medium">
+              <span className="w-9 h-9 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                <MapPin size={15} />
+              </span>
+              <span>Rear of 1248 Lytton Rd, Hemmant QLD 4174</span>
+            </div>
+          </div>
+
+          {/* CTA BUTTONS */}
+          <div className="flex flex-col sm:flex-row gap-3">
+            <a
+              href="tel:+0450273046"
+              className="flex-1 flex items-center justify-center h-14 rounded-xl bg-slate-950 text-white font-bold text-[14px] hover:bg-slate-800 transition-colors shadow-md"
+            >
+              Call to Book
+            </a>
+            <button
+              onClick={() => {
+                closePopup();
+                goContact();
+              }}
+              className="flex-1 flex items-center justify-center gap-2 h-14 rounded-xl bg-blue-600 text-white font-bold text-[14px] hover:bg-blue-700 transition-colors shadow-md"
+            >
+              Request a Quote
+              <ArrowRight size={16} />
+            </button>
+          </div>
+
+          <p className="text-center text-slate-400 text-[11px] uppercase tracking-widest mt-5 font-semibold">
+            Contact us anytime — we're ready to help
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function ServicesSlider({ goContact }) {
   const sliderRef = useRef(null);
@@ -42,7 +181,7 @@ function ServicesSlider({ goContact }) {
             <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white border border-slate-200 shadow-sm mb-6">
               <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
               <span className="text-slate-700 uppercase tracking-[0.2em] text-[11px] font-bold">
-                BrizzyTruckWash Complete Menu
+                Brizzy Truck Wash Complete Menu
               </span>
             </div>
 
@@ -76,31 +215,7 @@ function ServicesSlider({ goContact }) {
   style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
 >
   {/* SLIDE 01: UNDERBODY STEAM CLEAN */}
-  <div className="relative shrink-0 w-[85vw] sm:w-[400px] h-[520px] snap-center rounded-[32px] overflow-hidden bg-white shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col group">
-    <div className="relative h-[220px] w-full overflow-hidden shrink-0">
-      <img 
-        src="/jp1.png" 
-        alt="Underbody Wash" 
-        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1500ms] ease-out"
-      />
-      <div className="absolute top-4 left-4 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm text-blue-600 flex items-center justify-center font-bold shadow-sm">
-        01
-      </div>
-    </div>
-    <div className="p-8 flex flex-col justify-between flex-grow">
-      <div>
-        <h3 className="text-slate-900 text-[26px] font-[800] leading-tight tracking-tight mb-3">
-          Underbody Steam Clean
-        </h3>
-        <p className="text-slate-600 text-[15px] leading-[1.7]">
-          Our flagship facility features a heavy-duty machine hoist for complete underbody washing. Fast, economical, and delivers superior results. 
-        </p>
-      </div>
-      <span className="text-blue-600 text-sm font-semibold mt-4 block">
-        *By appointment only due to high demand.
-      </span>
-    </div>
-  </div>
+ 
 
   {/* SLIDE 02: FLEET SERVICES */}
   <div className="relative shrink-0 w-[85vw] sm:w-[400px] h-[520px] snap-center rounded-[32px] overflow-hidden bg-white shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col group">
@@ -123,9 +238,7 @@ function ServicesSlider({ goContact }) {
           We partner with major fleets nationwide, tailoring maintenance schedules to your budget. Includes on-site mobile units for detailed hand washing.
         </p>
       </div>
-      <span className="text-blue-600 text-sm font-semibold mt-4 block">
-        Automatic Preferred Customer status included.
-      </span>
+
     </div>
   </div>
 
@@ -177,29 +290,7 @@ function ServicesSlider({ goContact }) {
     </div>
   </div>
 
-  {/* SLIDE 05: SELF SERVE */}
-  <div className="relative shrink-0 w-[85vw] sm:w-[400px] h-[520px] snap-center rounded-[32px] overflow-hidden bg-white shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col group">
-    <div className="relative h-[220px] w-full overflow-hidden shrink-0">
-      <img 
-        src="/jp5.png" 
-        alt="Self Serve" 
-        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1500ms] ease-out"
-      />
-      <div className="absolute top-4 left-4 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm text-blue-600 flex items-center justify-center font-bold shadow-sm">
-        05
-      </div>
-    </div>
-    <div className="p-8 flex flex-col justify-between flex-grow">
-      <div>
-        <h3 className="text-slate-900 text-[26px] font-[800] leading-tight tracking-tight mb-3">
-          Self-Serve Wash Bays
-        </h3>
-        <p className="text-slate-600 text-[15px] leading-[1.7]">
-          For drivers who prefer a hands-on approach. We offer 2 fully-equipped token/coin bays featuring high-pressure soap, wax, rinse, and vacuum stations.
-        </p>
-      </div>
-    </div>
-  </div>
+
 
   {/* SLIDE 06: LOUNGE FACILITIES */}
   <div className="relative shrink-0 w-[85vw] sm:w-[400px] h-[520px] snap-center rounded-[32px] overflow-hidden bg-white shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col group">
@@ -246,7 +337,11 @@ function ServicesSlider({ goContact }) {
           We don't just stop at the exterior. We offer specialized deep cleaning, interior restoration, and finishing to produce a show-quality level of detail.
         </p>
       </div>
+       <span className="text-blue-600 text-sm font-semibold mt-4 block">
+        By appointment only due to high demand
+      </span>
     </div>
+    
   </div>
 
 </div>
@@ -674,6 +769,9 @@ export default function Home() {
   return (
     <main className="bg-white overflow-hidden">
 
+      {/* ── PREMIUM ONE-TIME WELCOME POPUP ─────────────────────────────── */}
+      <WelcomePopup goContact={goContact} />
+
       {/* ── MOBILE SIDEBAR OVERLAY ──────────────────────────────────────── */}
       <div
         onClick={() => setMenuOpen(false)}
@@ -797,99 +895,105 @@ export default function Home() {
          </nav>
 
       {/* ── HERO — true 100vh full screen ──────────────────────────────── */}
-<section className="relative w-full min-h-[100svh] overflow-hidden bg-black">
-  {/* VIDEO BACKGROUND */}
-  <div className="absolute inset-0 z-[1] overflow-hidden">
-    <ReactPlayer
-      url="/videos/hero.mp4"
-      playing
-      muted
-      loop
-      playsinline
-      width="100%"
-      height="100%"
-      className="react-player scale-[1.15] object-cover"
-    />
-  </div>
-
-  {/* OVERLAYS */}
-  <div className="absolute inset-0 z-[2] bg-black/15" />
-  <div className="absolute inset-0 z-[3] bg-gradient-to-r from-black via-black/70 to-black/30" />
-  <div className="absolute inset-0 z-[3] bg-gradient-to-t from-black via-transparent to-black/20" />
-
-  {/* TOP ACCENT */}
-  <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-cyan-400 via-blue-500 to-transparent z-[10]" />
-
-  {/* HERO CONTENT */}
-  <div className="relative z-[5] max-w-[1450px] mx-auto min-h-[100svh] px-5 sm:px-8 lg:px-14 flex items-center">
-    <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-14 w-full items-center">
-
-      {/* LEFT CONTENT */}
-      <div className="max-w-[850px]">
-
-        {/* BADGE */}
-        <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full border border-cyan-400/20 bg-white/5 backdrop-blur-xl">
-         
-          <span className="text-cyan-200 text-xs font-semibold uppercase tracking-[0.3em]">
-
-          </span>
-        </div>
-
-        {/* HEADING */}
-        <h1 className="mt-8 text-white font-black leading-[0.9] tracking-[-0.05em] text-[clamp(3.5rem,8vw,8rem)]">
-          Professional
-          <br />
-
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-400 to-blue-600">
-            Truck Washing
-          </span>
-
-          <br />
-
-          Services
-        </h1>
-
-        {/* DESCRIPTION */}
-        <p className="mt-8 max-w-[700px] text-white/70 text-[16px] sm:text-[19px] leading-[1.9]">
-          From single trucks to nationwide fleets, we deliver premium truck
-          washing, underbody steam cleaning, hybrid detailing, self-serve wash
-          bays, and interior cab detailing—all designed to keep your commercial
-          vehicles clean, protected, and road-ready every day.
-        </p>
-
-        {/* SERVICES */}
-        
-
-        {/* BUTTONS */}
-        <div className="flex flex-col sm:flex-row gap-5 mt-12">
-
-          <button
-            onClick={goContact}
-            className="group relative overflow-hidden rounded-2xl bg-blue-600 hover:bg-blue-700 px-9 py-4 text-white font-bold transition-all duration-300 shadow-2xl shadow-blue-600/40"
-          >
-            Book A Truck Wash
-          </button>
-
-          <button
-            onClick={goContact}
-            className="rounded-2xl border border-white/15 bg-white/5 backdrop-blur-xl hover:bg-white/10 hover:border-white/30 px-9 py-4 text-white font-semibold transition-all duration-300"
-          >
-            Request A Quote
-          </button>
-
-        </div>
-
-        {/* STATS */}
+<div className="relative min-h-[100svh] w-full bg-[#FCFDFG] font-sans selection:bg-blue-200 overflow-hidden flex flex-col">
       
+      {/* 1. ULTRA-PREMIUM AMBIENT BACKGROUND */}
+      <div className="absolute top-0 w-full h-[800px] overflow-hidden pointer-events-none z-0">
+        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[70%] rounded-full bg-gradient-to-br from-blue-100/60 to-transparent blur-[150px]" />
+        <div className="absolute top-[10%] -right-[10%] w-[40%] h-[60%] rounded-full bg-gradient-to-bl from-cyan-100/50 to-transparent blur-[150px]" />
       </div>
 
-      {/* RIGHT GLASS CARD */}
+      {/* 2. SLEEK BRAND HEADER ("Truck Wash By Craig" at the top) */}
+      <header className="relative z-20 w-full px-6 lg:px-12 py-8 flex justify-between items-center">
+       
+      </header>
 
+      {/* 3. MAIN HERO CONTENT */}
+      <main className="relative z-10 flex-1 flex items-center px-6 lg:px-12 py-10 lg:py-0 max-w-[1600px] mx-auto w-full">
+        
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center w-full">
+          
+          {/* LEFT: REFINED TYPOGRAPHY & BUTTONS */}
+          <div className="order-2 lg:order-1 flex flex-col items-start w-full mt-10 lg:mt-0">
+            
+            {/* Elegant Overline */}
+            <div className="flex items-center gap-3 mb-6">
+              <span className="h-[1px] w-8 bg-blue-600/50"></span>
+              <span className="text-blue-600 font-bold uppercase tracking-widest text-xs sm:text-sm">
+               Truck Wash By Craig
+              </span>
+            </div>
+
+            {/* Massive, Clean Typography */}
+           <h1 className="text-[clamp(3.5rem,7vw,6.5rem)] leading-[0.95] tracking-[-0.04em] font-black text-slate-900 mb-6">
+  Wash.
+  <br />
+  <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-500">
+    Perfected.
+  </span>
+</h1>
+            <p className="text-slate-500 text-lg sm:text-xl font-medium leading-[1.7] max-w-[540px] mb-10">
+              From single trucks to nationwide fleets, we deliver premium truck washing, hybrid detailing and interior cab detailing—all designed to keep your commercial vehicles clean, protected, and road-ready every day.
+            </p>
+
+            {/* Premium Buttons (Rounded-full feels more modern and luxurious) */}
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+              
+              {/* Primary Call Button */}
+              <a 
+                href="tel:+0450 273 046" 
+                className="group relative flex items-center justify-center h-16 px-10 rounded-full bg-slate-900 text-white font-bold text-[17px] transition-all duration-300 hover:bg-slate-800 hover:shadow-[0_20px_40px_-15px_rgba(15,23,42,0.4)] hover:-translate-y-1"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2.5 transition-transform group-hover:scale-110" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                </svg>
+                Call to Book
+              </a>
+
+              {/* Secondary Button */}
+              <button
+                onClick={goContact}
+                className="flex items-center justify-center h-16 px-10 rounded-full bg-white text-slate-800 font-bold text-[17px] border border-slate-200 transition-all duration-300 hover:bg-slate-50 hover:border-slate-300 hover:shadow-sm"
+              >
+                Request a Quote
+              </button>
+            </div>
+
+            {/* Trust Indicator / Social Proof */}
+            
+          </div>
+
+          {/* RIGHT: CINEMATIC VIDEO DISPLAY */}
+          <div className="order-1 lg:order-2 w-full relative group">
+            
+            {/* Soft Glow behind video */}
+            <div className="absolute -inset-4 bg-gradient-to-r from-blue-400 to-cyan-300 rounded-[3rem] blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-700"></div>
+            
+            {/* Video Container */}
+            <div className="relative w-full aspect-square max-h-[700px] rounded-[2.5rem] overflow-hidden bg-slate-900 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)] ring-1 ring-white/50">
+              
+              <ReactPlayer
+                url="/videos/hero.mp4"
+                playing
+                muted
+                loop
+                playsinline
+                width="100%"
+                height="100%"
+                className="[&>video]:object-cover w-full h-full transform transition-transform duration-1000 group-hover:scale-[1.03]"
+              />
+              
+              {/* Cinematic Vignette Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent pointer-events-none" />
+            </div>
+
+            {/* Floating Info Card (Overlapping the video for a rich 3D effect) */}
+           
+
+          </div>
+        </div>
+      </main>
     </div>
-  </div>
-
-  {/* SCROLL INDICATOR */}
-</section>
 
 
 
@@ -1057,7 +1161,7 @@ export default function Home() {
                 </span>
 
                 <h3 className="text-white text-[32px] sm:text-[38px] font-bold leading-[1.1] tracking-tight mb-10">
-                  Trusted by <br /> Fleet Owners <br /> Across QLD.
+                  Trusted by <br />  Truck operators <br /> Across QLD.
                 </h3>
 
                 <div className="space-y-5">
@@ -1123,7 +1227,7 @@ export default function Home() {
             Our Methodology
           </span>
           <h2 className="text-slate-950 font-extrabold leading-[1.05] tracking-tight text-[clamp(2.5rem,5vw,4.5rem)]">
-            A meticulous standard for fleet restoration.
+            A meticulous standard for Truck Wash.
           </h2>
           <p className="mt-6 text-slate-500 text-lg sm:text-xl leading-relaxed max-w-2xl font-light">
             Every commercial vehicle moves through a carefully engineered multi-stage system designed to clean, protect, and elevate your long-term fleet presentation.
@@ -1309,7 +1413,7 @@ export default function Home() {
             <div>
               <h4 className="text-white font-bold text-[15px] sm:text-base md:text-lg mb-5 sm:mb-7 md:mb-8">Services</h4>
               <div className="flex flex-col gap-4 sm:gap-5">
-                {["Fleet Foam Wash", "Ceramic Protection", "Trailer Sanitization", "Interior Detailing"].map((item, i) => (
+                {["Fleet Foam Wash", "Trailer Sanitization", "Interior Detailing"].map((item, i) => (
                   <a key={i} href="/contact" className="text-white/45 hover:text-white transition text-[12px] sm:text-[13px] md:text-sm">
                     {item}
                   </a>
@@ -1321,7 +1425,7 @@ export default function Home() {
             <div>
               <h4 className="text-white font-bold text-[15px] sm:text-base md:text-lg mb-5 sm:mb-7 md:mb-8">Company</h4>
               <div className="flex flex-col gap-4 sm:gap-5">
-                {["About Us", "Fleet Solutions", "Enterprise", "Careers"].map((item, i) => (
+                {["About Us", "Enterprise", "Careers"].map((item, i) => (
                   <a key={i} href="/contact" className="text-white/45 hover:text-white transition text-[12px] sm:text-[13px] md:text-sm">
                     {item}
                   </a>
@@ -1336,7 +1440,7 @@ export default function Home() {
                 <span>hello@brizzyfleet.com</span>
                 
                 <span>Brisbane & Gold Coast, QLD , Ipswich</span>
-                <span>24/7 Fleet Support</span>
+               
               </div>
             </div>
           </div>

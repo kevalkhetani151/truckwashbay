@@ -16,8 +16,8 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     const validated = contactSchema.parse(body);
-    console.log("validated data")
-    console.log(validated)
+    console.log("validated data");
+    console.log(validated);
 
     const transporter = nodemailer.createTransport({
       service: "gmail",

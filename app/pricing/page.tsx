@@ -3,13 +3,11 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
   ArrowRight,
   ArrowUpRight,
   FileDown,
-  ShieldCheck,
-  Waves,
   Clock,
   ChevronRight
 } from "lucide-react";
@@ -17,12 +15,12 @@ import {
 // ─── PREMIUM PRICING ROW COMPONENT ──────────────────────────────────────
 const PricingRow = ({ 
   title, 
-  express, 
-  deluxe 
+  price, 
+  desc 
 }: { 
   title: string; 
-  express: string; 
-  deluxe: string; 
+  price: string; 
+  desc?: string; 
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -42,43 +40,31 @@ const PricingRow = ({
         }`} 
       />
 
-      <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between px-6 py-8 md:py-10 transition-colors duration-500">
-        <div className="flex items-center gap-6 mb-6 md:mb-0">
+      <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between px-6 py-8 md:py-9 transition-colors duration-500">
+        <div className="flex items-center gap-6 mb-4 md:mb-0">
           <ChevronRight 
             className={`transition-all duration-500 ${
               isHovered ? "text-white translate-x-2" : "text-slate-300"
             }`} 
           />
-          <h3 className={`text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight transition-colors duration-500 ${
+          <h3 className={`text-xl md:text-2xl lg:text-3xl font-extrabold tracking-tight transition-colors duration-500 ${
             isHovered ? "text-white" : "text-slate-950"
           }`}>
             {title}
           </h3>
         </div>
 
-        <div className="flex items-center gap-10 md:gap-16 pl-12 md:pl-0">
-          <div className="flex flex-col">
+        <div className="flex items-center pl-12 md:pl-0">
+          <div className="flex flex-col items-start md:items-end">
             <span className={`text-[10px] font-black uppercase tracking-widest mb-1 transition-colors duration-500 ${
               isHovered ? "text-blue-200" : "text-slate-400"
             }`}>
-              Express
-            </span>
-            <span className={`font-mono text-xl transition-colors duration-500 ${
-              isHovered ? "text-white" : "text-slate-500"
-            }`}>
-              {express}
-            </span>
-          </div>
-          <div className="flex flex-col">
-            <span className={`text-[10px] font-black uppercase tracking-widest mb-1 transition-colors duration-500 ${
-              isHovered ? "text-white" : "text-blue-600"
-            }`}>
-              Deluxe
+              {desc || "Standard Rate"}
             </span>
             <span className={`font-mono text-2xl font-bold transition-colors duration-500 ${
               isHovered ? "text-white" : "text-slate-950"
             }`}>
-              {deluxe}
+              {price}
             </span>
           </div>
         </div>
@@ -252,7 +238,6 @@ export default function PricingPage() {
 
       {/* ── KINETIC HERO SECTION ───────────────────────────────────────── */}
       <section ref={containerRef} className="relative pt-[200px] pb-20 md:pt-[280px] md:pb-40 bg-[#f8f9fa] overflow-hidden">
-        {/* Architectural Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
         
         <motion.div 
@@ -262,7 +247,7 @@ export default function PricingPage() {
           <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-slate-200 bg-white mb-8 shadow-sm">
             <span className="h-1.5 w-1.5 rounded-full bg-blue-600 animate-pulse"></span>
             <span className="text-slate-500 uppercase tracking-[0.3em] text-[10px] font-extrabold">
-              Fiscal Year 2026 Index
+              Service Rates Menu
             </span>
           </div>
           
@@ -274,8 +259,7 @@ export default function PricingPage() {
           <div className="mt-12 max-w-sm">
             <p className="text-slate-500 font-mono text-xs uppercase tracking-widest leading-relaxed">
               Precision commercial fleet washing rates. <br/>
-              Includes all applicable GST. <br/>
-              Subject to 7% adjustment.
+              <span className="text-blue-600 font-bold">ALL PRICES INCLUDE GST.</span> <br/>
             </p>
           </div>
         </motion.div>
@@ -285,7 +269,7 @@ export default function PricingPage() {
       <section className="relative z-20 bg-white border-t border-slate-200/60">
         <div className="max-w-[1400px] mx-auto px-6 md:px-14 py-32">
           
-          {/* SECTION 1: FREIGHT */}
+          {/* SECTION 1: PRIME MOVERS & COMBINATIONS */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-40">
             <div className="lg:col-span-4 relative">
               <div className="sticky top-40">
@@ -293,23 +277,26 @@ export default function PricingPage() {
                   Category 01
                 </span>
                 <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-950 mb-6 leading-[1.1]">
-                  Freight &amp; <br/>Multi-Trailers
+                  Prime Movers &amp; <br/>Combinations
                 </h2>
                 <p className="text-slate-500 font-light text-lg">
-                  Standardized metrics for heavy-duty long-haul combinations.
+                  Standardized metrics for cabs, heavy-duty combinations, and long-haul setups.
                 </p>
               </div>
             </div>
 
             <div className="lg:col-span-8 border-t border-slate-200/60">
-              <PricingRow title="Prime Mover Only" express="$125" deluxe="$170" />
-              <PricingRow title="Single Trailer Comb." express="$145" deluxe="$220" />
-              <PricingRow title="B-Double Combination" express="$195" deluxe="$300" />
-              <PricingRow title="Car Carriers Fleet" express="$175" deluxe="$230" />
+              <PricingRow title="Prime Mover (Cab Over)" price="$154.00" />
+              <PricingRow title="Bonnet" price="$187.00" />
+              <PricingRow title="Truck & Trailer" price="$264.00" />
+              <PricingRow title="Truck + Flat Top" price="$198.00" />
+              <PricingRow title="Truck + B/Double Flat Tops" price="$232.00" />
+              <PricingRow title="B/Double Refrig / Tautliner" price="$286.00" />
+              <PricingRow title="A/Double Full" price="$330.00" />
             </div>
           </div>
 
-          {/* SECTION 2: SPECIALTY */}
+          {/* SECTION 2: SPECIALTY, TRAILERS & TANKERS */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             <div className="lg:col-span-4 relative">
               <div className="sticky top-40">
@@ -317,43 +304,46 @@ export default function PricingPage() {
                   Category 02
                 </span>
                 <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-950 mb-6 leading-[1.1]">
-                  Rigid &amp; <br/>Specialty
+                  Trailers, Tankers &amp; <br/>Specialty
                 </h2>
                 <p className="text-slate-500 font-light text-lg">
-                  Calibrated for construction, tippers, and unique chassis setups.
+                  Calibrated for rigids, passenger transport, tankers, and trailer cleaning.
                 </p>
               </div>
             </div>
 
             <div className="lg:col-span-8 border-t border-slate-200/60">
-              <PricingRow title="Single Rigid Vehicle" express="$80" deluxe="$125" />
-              <PricingRow title="Rigid Tipper & Dog" express="$195" deluxe="$250" />
-              <PricingRow title="Single Tanker Comb." express="$170" deluxe="$255" />
-              <PricingRow title="Single Low Loader" express="—" deluxe="$225" />
+              <PricingRow title="Trailer" desc="Includes Internal" price="$187.00" />
+              <PricingRow title="Single Tanker" price="$264.00" />
+              <PricingRow title="B/Double Tankers" price="$330.00" />
+              <PricingRow title="Single Car Carrier" price="$198.00" />
+              <PricingRow title="B/Double Car Carrier" price="$232.00" />
+              <PricingRow title="Rigid" price="$132.00" />
+              <PricingRow title="Bus" price="$132.00" />
             </div>
           </div>
 
         </div>
       </section>
 
-      {/* ── BENTO BOX: ADD-ONS & HOURS ─────────────────────────────────── */}
+      {/* ── BENTO BOX: ADD-ONS & OPERATING HOURS ──────────────────────── */}
       <section className="py-32 bg-[#0f172a] text-white rounded-t-[3rem] relative z-30">
         <div className="max-w-[1400px] mx-auto px-6 md:px-14">
           
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             
-            {/* Additional Treatments (Span 8) */}
+            {/* Additional Services (Span 8) */}
             <div className="md:col-span-8 bg-[#1e293b] rounded-[2rem] p-10 md:p-14 border border-white/5 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-500/10 blur-[100px] rounded-full pointer-events-none" />
               
-              <h3 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-10">Add-On Dynamics</h3>
+              <h3 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-10">Extras & Light Commercial</h3>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 relative z-10">
                 {[
-                  { name: "Underbody Steam", cost: "From $380", desc: "Standard extraction process." },
-                  { name: "Deck Blast Protocol", cost: "From $35", desc: "Calculated per trailer basis." },
-                  { name: "Env. Discharge Levy", cost: "$3.00", desc: "Mandatory regulatory fee." },
-                  { name: "Tyre Hydro-Shine", cost: "$1.50/ea", desc: "Premium aesthetic finish." },
+                  { name: "Internals", cost: "$88.00", desc: "Detailed cabin interior cleaning." },
+                  { name: "Van", cost: "$60.00", desc: "Standard commercial van wash." },
+                  { name: "Caravan", cost: "$110.00", desc: "Includes top cleaning." },
+                  { name: "GST Included", cost: "10%", desc: "All listed prices include GST." },
                 ].map((item, i) => (
                   <div key={i} className="group cursor-default">
                     <div className="flex justify-between items-end border-b border-white/10 pb-3 mb-3 group-hover:border-blue-500/50 transition-colors">
@@ -366,7 +356,7 @@ export default function PricingPage() {
               </div>
             </div>
 
-            {/* Operating Hours (Span 4) */}
+            {/* Operating Hours (Updated to 5 AM - 4 PM & Weekends Booking Only) */}
             <div className="md:col-span-4 bg-blue-600 rounded-[2rem] p-10 md:p-14 text-white flex flex-col justify-between">
               <div>
                 <Clock className="w-8 h-8 mb-8 opacity-80" />
@@ -374,15 +364,11 @@ export default function PricingPage() {
                 
                 <div className="space-y-6">
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-blue-200 block mb-1">MON — FRI</span>
-                    <span className="text-xl font-bold">05:00 AM – 07:00 PM</span>
-                  </div>
-                  <div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-blue-200 block mb-1">SATURDAY</span>
-                    <span className="text-xl font-bold">04:00 AM – 01:00 PM</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-blue-200 block mb-1">MON — FRI (5 DAYS)</span>
+                    <span className="text-xl font-bold">05:00 AM – 04:00 PM</span>
                   </div>
                   <div className="pt-4 border-t border-white/20">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-blue-200 block mb-1">SUNDAY</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-blue-200 block mb-1">WEEKENDS (SAT & SUN)</span>
                     <span className="text-xl font-bold tracking-tight uppercase">Booking Only</span>
                   </div>
                 </div>
@@ -394,28 +380,11 @@ export default function PricingPage() {
       </section>
 
       {/* ── HIGH VISUAL CALL-TO-ACTION BANNER ──────────────────────────── */}
-      <section className="bg-white relative py-40 border-b border-slate-200/60 overflow-hidden">
-        <div className="relative z-10 max-w-[800px] mx-auto px-6 text-center">
-          <span className="text-blue-600 uppercase tracking-[0.25em] text-[11px] font-extrabold">
-            Corporate Framework Agreements
-          </span>
-          <h2 className="text-slate-950 font-light tracking-tighter text-5xl sm:text-7xl mt-6 mb-8 leading-tight">
-            Commercial <span className="font-extrabold">Credit Access.</span>
-          </h2>
-          <p className="text-slate-500 font-light text-lg sm:text-xl max-w-xl mx-auto mb-12 leading-relaxed">
-            Streamline validation requirements. Access priority express lines and specialized month-end billing configurations.
-          </p>
-          
-          <div className="flex justify-center">
-            <button className="group relative px-10 py-5 bg-slate-950 text-white font-bold uppercase text-[11px] tracking-widest flex items-center gap-4 rounded-xl transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 hover:-translate-y-1">
-              <span>Download Application Form</span>
-              <FileDown className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
-            </button>
-          </div>
-        </div>
+      <section className="bg-white relative py-5 border-b border-slate-200/60 overflow-hidden">
+       
       </section>
 
-      {/* ── METICULOUS CLEAN LIGHT FOOTER (EXACT MATCH) ───────────────── */}
+      {/* ── FOOTER ────────────────────────────────────────────────────── */}
       <footer className="relative bg-[#0f172a] overflow-hidden">
         <div className="absolute bottom-[-200px] right-[-120px] w-[420px] h-[420px] rounded-full bg-blue-500/10 blur-[140px]" />
 
@@ -453,7 +422,7 @@ export default function PricingPage() {
             <div>
               <h4 className="text-white font-bold text-[16px] sm:text-lg mb-5 sm:mb-7 md:mb-8">Services</h4>
               <div className="flex flex-col gap-4 sm:gap-5">
-                {["Fleet Foam Wash", "Ceramic Protection", "Trailer Sanitization", "Interior Detailing"].map((item, i) => (
+                {["Fleet Foam Wash", "Trailer Sanitization", "Interior Detailing"].map((item, i) => (
                   <a key={i} href="/contact" className="text-white/45 hover:text-white transition text-sm">
                     {item}
                   </a>
@@ -465,7 +434,7 @@ export default function PricingPage() {
             <div>
               <h4 className="text-white font-bold text-[16px] sm:text-lg mb-5 sm:mb-7 md:mb-8">Company</h4>
               <div className="flex flex-col gap-4 sm:gap-5">
-                {["About Us", "Fleet Solutions", "Enterprise", "Careers"].map((item, i) => (
+                {["About Us", "Enterprise", "Careers"].map((item, i) => (
                   <a key={i} href="/contact" className="text-white/45 hover:text-white transition text-sm">
                     {item}
                   </a>
@@ -477,7 +446,7 @@ export default function PricingPage() {
             <div>
               <h4 className="text-white font-bold text-[16px] sm:text-lg mb-5 sm:mb-7 md:mb-8">Contact</h4>
               <div className="flex flex-col gap-4 sm:gap-5 text-white/45 text-sm">
-                <span>info@brizzytruckwash.com.au</span>
+                <span>Craig@brizzytruckwash.com.au</span>
                 <span>Brisbane &amp; Gold Coast, QLD, Ipswich</span>
                 <span>24/7 Fleet Support</span>
               </div>
