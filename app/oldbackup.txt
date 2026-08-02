@@ -145,7 +145,7 @@ export default function Home() {
   {/* Logo */}
   <a href="#" className="flex-shrink-0">
     <Image
-      src="/logo2.png"
+      src="/logo3.png"
       alt="Brizzy Logo"
       width={70}
       height={60}
@@ -1238,7 +1238,7 @@ export default function Home() {
             {/* BRAND */}
             <div className="col-span-2 md:col-span-1">
               <div className="flex items-center">
-                <Image src="/logo2.png" alt="Brizzy" width={140} height={30} className="object-contain" priority />
+                <Image src="/logo3.png" alt="Brizzy" width={140} height={30} className="object-contain" priority />
               </div>
               <p className="mt-4 sm:mt-6 text-white/50 leading-[1.8] sm:leading-[1.9] text-[13px] sm:text-[14px] max-w-[320px]">
                 Professional truck washing services designed to keep your vehicles clean, presentable, and road-ready.

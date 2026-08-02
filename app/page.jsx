@@ -839,7 +839,7 @@ export default function Home() {
          >
            <a href="/" className="flex-shrink-0 transition-opacity hover:opacity-75">
              <Image
-               src="/logo2.png"
+               src="/logo3.png"
                alt="Brizzy Logo"
                width={72}
                height={56}
@@ -1392,7 +1392,7 @@ export default function Home() {
             {/* BRAND */}
             <div className="col-span-2 md:col-span-1">
               <div className="flex items-center">
-                <Image src="/logo2.png" alt="Brizzy" width={140} height={70} className="object-contain" priority />
+                <Image src="/logo3.png" alt="Brizzy" width={140} height={70} className="object-contain" priority />
               </div>
               <p className="mt-4 sm:mt-6 text-white/50 leading-[1.8] sm:leading-[1.9] text-[13px] sm:text-[14px] max-w-[320px]">
                 Professional truck washing services designed to keep your vehicles clean, presentable, and road-ready.
@@ -1439,7 +1439,7 @@ export default function Home() {
               <div className="flex flex-col gap-4 sm:gap-5 text-white/45 text-[12px] sm:text-[13px] md:text-sm">
                 <span>hello@brizzyfleet.com</span>
                 
-                <span>Brisbane & Gold Coast, QLD , Ipswich</span>
+                <span>Rear of 1248 Lytton Rd Hemmant QLD 4174</span>
                
               </div>
             </div>

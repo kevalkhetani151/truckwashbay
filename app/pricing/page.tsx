@@ -181,7 +181,7 @@ export default function PricingPage() {
       >
         <a href="/" className="flex-shrink-0 transition-opacity hover:opacity-75">
           <Image
-            src="/logo2.png"
+            src="/logo3.png"
             alt="Brizzy Logo"
             width={72}
             height={56}
@@ -395,7 +395,7 @@ export default function PricingPage() {
             <div className="col-span-2 md:col-span-1">
               <div className="flex items-center">
                 <Image
-                  src="/logo2.png"
+                  src="/logo3.png"
                   alt="Brizzy"
                   width={140}
                   height={70}
@@ -447,7 +447,7 @@ export default function PricingPage() {
               <h4 className="text-white font-bold text-[16px] sm:text-lg mb-5 sm:mb-7 md:mb-8">Contact</h4>
               <div className="flex flex-col gap-4 sm:gap-5 text-white/45 text-sm">
                 <span>Craig@brizzytruckwash.com.au</span>
-                <span>Brisbane &amp; Gold Coast, QLD, Ipswich</span>
+                <span>Rear of 1248 Lytton Rd Hemmant QLD 4174</span>
                 <span>24/7 Fleet Support</span>
               </div>
             </div>
